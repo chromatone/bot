@@ -1,5 +1,5 @@
-<template>
-  <div>
-    HELLO BOT
-  </div>
+<template lang="pug">
+NuxtLoadingIndicator(color='purple')
+NuxtLayout
+  NuxtPage
 </template>
