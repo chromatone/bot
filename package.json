@@ -17,11 +17,12 @@
 		"zod": "^3.22.5"
 	},
 	"devDependencies": {
-		"unocss": "^0.59.4",
 		"@unocss/extractor-pug": "^0.59.4",
 		"@unocss/nuxt": "^0.59.4",
+		"@vue/language-plugin-pug": "^2.0.13",
+		"commandkit": "^0.1.10",
 		"discord.js": "^14.14.1",
 		"pug": "^3.0.2",
-		"@vue/language-plugin-pug": "^2.0.13"
+		"unocss": "^0.59.4"
 	}
 }

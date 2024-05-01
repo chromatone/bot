@@ -1,10 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
-  devServer: {
-    port: 3080
-  },
-  modules: [
-     "@unocss/nuxt",
-  ]
-})
+	devtools: { enabled: true },
+	devServer: {
+		port: 3080,
+	},
+	modules: ["@unocss/nuxt"],
+	runtimeConfig: {
+		discordBotToken: "",
+		discordGuildId: "",
+		discordClientId: "",
+	},
+});

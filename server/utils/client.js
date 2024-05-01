@@ -1,4 +1,11 @@
-import { Client, GatewayIntentBits, } from 'discord.js'
+import { Client, IntentsBitField, } from 'discord.js'
 
-export const client = new Client({ intents: [GatewayIntentBits.Guilds] })
+export const client = new Client({
+  intents: [
+    IntentsBitField.Flags.Guilds,
+    IntentsBitField.Flags.GuildMembers,
+    IntentsBitField.Flags.GuildMessages,
+    IntentsBitField.Flags.MessageContent
+  ]
+})
 
