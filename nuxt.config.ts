@@ -4,10 +4,13 @@ export default defineNuxtConfig({
 	devServer: {
 		port: 3080,
 	},
-	modules: ["@unocss/nuxt"],
+	modules: ["@unocss/nuxt", "nuxt-cron"],
 	runtimeConfig: {
 		discordBotToken: "",
 		discordGuildId: "",
 		discordClientId: "",
+		discordNewsChannel: "",
+		directusToken: "",
+		directusUrl: "",
 	},
 });
