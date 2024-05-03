@@ -17,8 +17,20 @@ export default defineCronHandler('everyMinute', async () => {
   const news = await db.request(readItems('news'))
 
   for (let n of news) {
-    if (n.sent_to_discord) continue
-    let embed = new EmbedBuilder().setTitle(n?.title)
+    if (n?.sent_to_discord) continue
+
+    const embed = new EmbedBuilder()
+      .setTitle(n?.title)
+      .setDescription(n?.description)
+      .setURL(n?.link)
+      .addFields({ name: 'Date', value: n?.date.slice(0, 10), inline: false })
+      .setFooter({ text: 'Chromatone news' });
+
+    if (n?.cover) {
+      embed.setImage(`${config.directusUrl}/assets/${n?.cover}`)
+    }
+
+
     discord.channels.cache.get(config.discordNewsChannel).send({ embeds: [embed] })
     await db.request(updateItem('news', n?.id, {
       sent_to_discord: true

@@ -10,6 +10,8 @@ export default defineNuxtConfig({
 		discordGuildId: "",
 		discordClientId: "",
 		discordNewsChannel: "",
+		discordActivationChannel: "",
+		discordRoleId: "",
 		directusToken: "",
 		directusUrl: "",
 	},
