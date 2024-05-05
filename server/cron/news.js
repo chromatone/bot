@@ -5,7 +5,7 @@ import { initiated } from '../utils/discord';
 import { EmbedBuilder } from 'discord.js';
 
 
-export default defineCronHandler('everyMinute', async () => {
+export default defineCronHandler('everyTenMinutes', async () => {
   if (!initiated.value) return
 
   const config = useRuntimeConfig()
@@ -14,10 +14,15 @@ export default defineCronHandler('everyMinute', async () => {
     .with(staticToken(config.directusToken))
     .with(rest());
 
-  const news = await db.request(readItems('news'))
+  const news = await db.request(readItems('news', {
+    filter: {
+      sent_to_discord: {
+        _eq: false
+      }
+    }
+  }))
 
   for (let n of news) {
-    if (n?.sent_to_discord) continue
 
     const embed = new EmbedBuilder()
       .setTitle(n?.title)

@@ -22,45 +22,78 @@ export default defineNitroPlugin(async (nitroApp) => {
     }
   })
 
-  // ACTIVATE USER -> STUDENT
+  // ACTIVATE USER -> STUDENT ROLE (OR DEACTIVATE)
   discord.on('messageCreate', async (message) => {
     if (message.guild != config.discordGuildId) return
     if (message.author.bot) return
     if (message.channelId != config.discordActivationChannel) return
-    if (!message.content.toLowerCase().startsWith('activate ')) return
 
     const db = createDirectus(config.directusUrl)
       .with(staticToken(config.directusToken))
       .with(rest())
 
-    const member = await db.request(readItems('members', {
-      fields: ['id', 'user.first_name'],
-      filter: {
-        discord_secret: {
-          _eq: message.content.split(' ')?.[1]
-        }
-      }
-    }))
+    if (message.content.toLowerCase().startsWith('disconnect')) {
 
-    if (member.length == 0) {
-      message.react('🛑')
-      return
+      console.log('disconnecting ', message.author.id)
+
+      const member = await db.request(readItems('members', {
+        fields: ['*'],
+        filter: {
+          discord_user: {
+            _eq: message?.author?.id
+          }
+        }
+      }))
+
+      if (!member) return
+
+      const role = await message.guild.roles.fetch(config.discordRoleId)
+
+      await message.member.roles.remove(role)
+
+      await db.request(updateItem('members', member[0].id, {
+        discord_active: false,
+        discord_secret: null
+      }))
+
+      await message.reply(`Ok, user @${message.author.username} is no more a part of the Chromatone Academy server.`);
     }
 
-    message.react('👍')
 
-    const role = await message.guild.roles.fetch(config.discordRoleId)
+    if (message.content.toLowerCase().startsWith('activate ')) {
+      const member = await db.request(readItems('members', {
+        fields: ['id', 'user.first_name'],
+        filter: {
+          discord_secret: {
+            _eq: message.content.split(' ')?.[1]
+          }
+        }
+      }))
 
-    await message.member.roles.add(role)
+      if (member.length == 0) {
+        message.react('🛑')
+        return
+      }
 
-    await db.request(updateItem('members', member[0].id, {
-      discord_user: message.author.id,
-      discord_username: message.author.username,
-      discord_secret: null
-    }))
+      message.react('👍')
 
-    await message.reply(`Great news! We got a new community member - @${message.author.username}! You can now enjoy full access to the server channels.`);
-    await message.delete()
+      const role = await message.guild.roles.fetch(config.discordRoleId)
+
+      await message.member.roles.add(role)
+
+      await db.request(updateItem('members', member[0].id, {
+        discord_user: message.author.id,
+        discord_username: message.author.username,
+        discord_secret: null,
+        discord_active: true
+      }))
+
+      await message.reply(`Great news! We got a new member - @${message.author.username}! You can now enjoy full access to the server channels.`);
+
+    }
+
+
+
 
   });
 

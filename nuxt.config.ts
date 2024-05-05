@@ -4,6 +4,9 @@ export default defineNuxtConfig({
 	devServer: {
 		port: 3080,
 	},
+	routeRules: {
+		"/api/**": { cors: false },
+	},
 	modules: ["@unocss/nuxt", "nuxt-cron"],
 	runtimeConfig: {
 		discordBotToken: "",
