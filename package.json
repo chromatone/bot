@@ -1,6 +1,7 @@
 {
 	"name": "chromatone-bot",
 	"private": true,
+	"version": "0.1.0",
 	"type": "module",
 	"scripts": {
 		"build": "nuxt build",
@@ -10,22 +11,27 @@
 		"postinstall": "nuxt prepare"
 	},
 	"dependencies": {
-		"@unocss/reset": "^0.59.4",
-		"nuxt": "^3.11.2",
-		"vue": "^3.4.21",
-		"vue-router": "^4.3.0",
-		"zod": "^3.22.5"
+		"@unocss/reset": "^66.0.0",
+		"nuxt": "^3.16.0",
+		"vue": "^3.5.13",
+		"vue-router": "^4.5.0",
+		"zod": "^3.24.2"
 	},
 	"devDependencies": {
-		"@directus/sdk": "^15.1.0",
-		"@unocss/extractor-pug": "^0.59.4",
-		"@unocss/nuxt": "^0.59.4",
-		"@vue/language-plugin-pug": "^2.0.13",
+		"@directus/sdk": "^19.0.1",
+		"@unocss/extractor-pug": "^66.0.0",
+		"@unocss/nuxt": "^66.0.0",
+		"@vue/language-plugin-pug": "^2.2.8",
 		"commandkit": "^0.1.10",
-		"discord.js": "^14.14.1",
-		"nuxt-cron": "^1.5.1",
-		"pug": "^3.0.2",
-		"unocss": "^0.59.4"
+		"discord.js": "^14.18.0",
+		"nuxt-cron": "^1.8.0",
+		"pug": "^3.0.3",
+		"unocss": "^66.0.0"
 	},
-	"version": "0.1.0"
+	"packageManager": "pnpm@10.6.4",
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"esbuild"
+		]
+	}
 }
